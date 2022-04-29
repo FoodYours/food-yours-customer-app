@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
 import 'package:food_yours_customer/common/widget/app_button.dart';
 import 'package:food_yours_customer/common/widget/auto_complete_input_field.dart';
+import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
 import 'package:food_yours_customer/common/widget/loader.dart';
+import 'package:food_yours_customer/common/widget/text/mulish_600_text.dart';
 import 'package:food_yours_customer/home/controller/home_tab_back_panel_controller.dart';
 import 'package:food_yours_customer/home/controller/home_tab_controller.dart';
 import 'package:food_yours_customer/home/view_model/meal_search_view_model.dart';
@@ -17,7 +19,6 @@ import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:get/instance_manager.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreenBackPanel extends StatelessWidget {
@@ -37,92 +38,95 @@ class HomeScreenBackPanel extends StatelessWidget {
         child: Container(
           color: FYColors.subtleBlack5,
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: sw(24)),
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: sh(28)),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AutoCompleteInputField<MealSearchViewModel>(
-                          onSelected: homeTabBackPanelCrtl.onSelected,
-                          suggestionsCallback:
-                              homeTabBackPanelCrtl.loadMealSugguestions,
-                          seachQueryTextController:
-                              homeTabBackPanelCrtl.seachQueryTextController,
-                          hintText: "Enter food name",
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: sw(Dimens.k24)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: sh(Dimens.k28)),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AutoCompleteInputField<MealSearchViewModel>(
+                            onSelected: homeTabBackPanelCrtl.onSelected,
+                            suggestionsCallback:
+                                homeTabBackPanelCrtl.loadMealSuggestions,
+                            searchQueryTextController:
+                                homeTabBackPanelCrtl.searchQueryTextController,
+                            hintText: "Enter food name",
+                          ),
                         ),
-                      ),
-                      SizedBox(width: sw(14.67)),
-                      FYButton(
-                        child: SvgPicture.asset(Images.settings,
-                            width: sw(26.67), height: sh(30.01)),
-                        onTap: homeTabBackPanelCrtl.gotoFilterScreen,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: sh(20)),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("Recent Searches",
-                          style: context.theme.textTheme.caption!.copyWith(
-                              fontSize: Dimens.k16,
-                              fontWeight: FontWeight.w600)),
-                      SizedBox(width: sw(17)),
-                      FYButton(
-                          onTap: homeTabBackPanelCrtl.clearSeachInputField,
-                          child: Padding(
-                            padding: EdgeInsets.all(sh(8.0)),
-                            child: Text("Clear",
-                                style: context.theme.textTheme.headline3!
-                                    .copyWith(
-                                        fontSize: Dimens.k12,
-                                        fontWeight: FontWeight.w600,
-                                        decoration: TextDecoration.underline)),
-                          )),
-                    ],
-                  ),
-                  SizedBox(height: sh(11)),
-                  ValueListenableBuilder<Box>(
+                        SizedBox(width: sw(14.67)),
+                        FYButton(
+                          child: SvgPicture.asset(Images.settings,
+                              width: sw(26.67), height: sh(30.01)),
+                          onTap: homeTabBackPanelCrtl.gotoFilterScreen,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: sh(Dimens.k20)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Mulish600Text(
+                          text: "Recent Searches",
+                          fontSize: Dimens.k16,
+                          color: FYColors.lighterBlack2,
+                        ),
+                        SizedBox(width: sw(Dimens.k9)),
+                        FYFlatButton(
+                          size: Size(Dimens.k0, Dimens.k0),
+                          backgroundColor: Colors.transparent,
+                          onPressed: homeTabBackPanelCrtl.clearSearchInputField,
+                          child: Mulish600Text(
+                            text: "Clear",
+                            fontSize: Dimens.k12,
+                            textDecoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: sh(Dimens.k11)),
+                    ValueListenableBuilder<Box>(
                       valueListenable:
                           Hive.box(Strings.SEARCH_HISTORY_BOX).listenable(),
                       builder: (context, box, _) {
-                        return GridView.count(
-                          shrinkWrap: true,
-                          childAspectRatio: 2.5,
-                          crossAxisSpacing: sw(0.0),
-                          mainAxisSpacing: sw(0.0),
-                          crossAxisCount: 3,
-                          physics: NeverScrollableScrollPhysics(),
-                          semanticChildCount: 6,
+                        return Wrap(
                           children: List.generate(
                             box.values.length,
-                            (index) => FYChip(box.getAt(index),
-                                hideDeleteButton: false,
-                                onDeleted: () => homeTabBackPanelCrtl
-                                    .onDeleteResentSearch(index)),
+                            (index) => Padding(
+                              padding: const EdgeInsets.only(right: Dimens.k8),
+                              child: FYChip(box.getAt(index),
+                                  hideDeleteButton: false,
+                                  onDeleted: () => homeTabBackPanelCrtl
+                                      .onDeleteResentSearch(index)),
+                            ),
                           ),
                         );
-                      }),
-                  SizedBox(height: sh(Dimens.k50)),
-                  Text("Food Categories",
-                      style: context.theme.textTheme.headline5!.copyWith(
-                          fontSize: sh(Dimens.k16),
-                          fontWeight: FontWeight.w700)),
-                  SizedBox(height: sh(Dimens.k8)),
-                  Obx(
-                    () => FoodCategoryList(
-                      selectedCategoryIndex:
-                          homeTabCrtl.selectedFoodCategoryIndex.value,
-                      onCategorySelected: homeTabCrtl.onCategorySelected,
-                      isLoading: homeTabCrtl.isLoadingFoodCategories.value,
-                      foodCategories: foodCategories,
+                      },
                     ),
+                    SizedBox(height: sh(Dimens.k50)),
+                    Text("Food Categories",
+                        style: context.theme.textTheme.headline5!.copyWith(
+                            fontSize: sh(Dimens.k16),
+                            fontWeight: FontWeight.w700)),
+                    SizedBox(height: sh(Dimens.k8)),
+                  ],
+                ),
+              ),
+              Obx(
+                () => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: sw(Dimens.k22)),
+                  child: FoodCategoryList(
+                    selectedCategoryIndex:
+                        homeTabCrtl.selectedFoodCategoryIndex.value,
+                    onCategorySelected: homeTabCrtl.onCategorySelected,
+                    isLoading: homeTabCrtl.isLoadingFoodCategories.value,
+                    foodCategories: foodCategories,
+                    itemCount: foodCategories.length,
                   ),
-                ],
+                ),
               ),
               Container(),
             ],

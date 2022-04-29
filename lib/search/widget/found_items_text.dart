@@ -8,12 +8,12 @@ import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class FoundItemsText extends StatelessWidget {
   final int mealsCount;
-  final String seachText;
+  final String searchText;
 
   const FoundItemsText({
     Key? key,
     required this.mealsCount,
-    required this.seachText,
+    required this.searchText,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class FoundItemsText extends StatelessWidget {
                   color: FYColors.darkerBlack2,
                   fontSize: sh(Dimens.k12),
                 ),
-                text: seachText,
+                text: searchText,
               ),
               TextSpan(
                 style: context.theme.textTheme.headline3!.copyWith(

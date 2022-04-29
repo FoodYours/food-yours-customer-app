@@ -1,9 +1,9 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_yours_customer/common/widget/button/fy_outline_button.dart';
+import 'package:food_yours_customer/common/widget/fy_outline_button.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_700_text.dart';
 import 'package:food_yours_customer/resources/Images.dart';
+import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
 
@@ -63,7 +63,10 @@ class AdSpace extends StatelessWidget {
               FYOutlinedButton(
                 text: "Start Ordering",
                 textSize: Dimens.k8,
+                backgroundColor: FYColors.mainRed,
+                textColor: Colors.white,
                 size: Size(double.infinity, Dimens.k32),
+                borderColor: Colors.white,
                 onPressed: () => adAction == null ? null : adAction!(),
               ),
             ],

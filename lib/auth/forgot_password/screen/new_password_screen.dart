@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/auth/forgot_password/controller/new_password_screen_controller.dart';
-import 'package:food_yours_customer/auth/login/screen/login_screen.dart';
-import 'package:food_yours_customer/auth/widget/auth_card.dart';
+import 'package:food_yours_customer/common/widget/fy_raised_card.dart';
 import 'package:food_yours_customer/auth/widget/text_obscure_button.dart';
 import 'package:food_yours_customer/common/widget/auth_pages_background_image.dart';
 import 'package:food_yours_customer/common/widget/button/fy_text_button.dart';
@@ -14,7 +13,6 @@ import 'package:food_yours_customer/resources/Images.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/get_utils.dart';
 import 'package:get/instance_manager.dart';
 
 class NewPasswordScreen extends StatelessWidget {
@@ -65,10 +63,8 @@ class NewPasswordScreen extends StatelessWidget {
   Widget _buildLoginForm(Function sw, BuildContext context) {
     Function sh = sHeight(context);
 
-    return AuthCard(
-      height: sh(Dimens.k360),
-      child: ListView(
-        padding: EdgeInsets.zero,
+    return FYRaisedCard(
+      child: Column(
         children: [
           SizedBox(
             height: sh(Dimens.k26),

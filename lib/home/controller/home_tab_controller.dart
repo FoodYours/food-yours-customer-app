@@ -1,9 +1,11 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/api/app_response.dart';
 import 'package:food_yours_customer/auth/login/controller/login_screen_controller.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
 import 'package:food_yours_customer/common/widget/notification_widgets.dart';
-import 'package:food_yours_customer/controller/dashbard/dashboard_screen_controller.dart';
+import 'package:food_yours_customer/dashboard/controller/dashboard_screen_controller.dart';
 import 'package:food_yours_customer/home/view_model/food_category_view_model.dart';
 import 'package:food_yours_customer/home/view_model/popular_chef_view_model.dart';
 import 'package:food_yours_customer/home/view_model/user_model.dart';
@@ -20,7 +22,7 @@ import 'package:get/instance_manager.dart';
 import 'package:hive/hive.dart';
 
 class HomeTabController extends GetxController
-    with SingleGetTickerProviderMixin {
+    with GetSingleTickerProviderStateMixin {
   final UserService userService = Get.find();
   final ProductService productService = Get.find();
   final DashBoardScreenController dashBoardScreenController = Get.find();
@@ -31,7 +33,7 @@ class HomeTabController extends GetxController
   Rx<Offset> appHomeAppbarOffset = Rx(Offset(0, 0));
   Rx<Offset> searchScreenAppbarOffset = Rx(Offset(0, 2));
 
-  RxBool isShowHomeScreenAppbar = true.obs;
+  RxBool showHomeScreenAppbar = true.obs;
   RxBool isLoadingFoodCategories = false.obs;
 
   String searchQuery = "";
@@ -59,14 +61,14 @@ class HomeTabController extends GetxController
   }
 
   openSearchBackDrop() {
-    isShowHomeScreenAppbar.value = false;
+    showHomeScreenAppbar.value = false;
     appHomeAppbarOffset.value -= Offset(0, 2); // -2
     searchScreenAppbarOffset.value -= Offset(0, 2); // 0
     animationCrtl.fling(velocity: -1.0);
   }
 
   closeSearchBackDrop() {
-    isShowHomeScreenAppbar.value = true;
+    showHomeScreenAppbar.value = true;
     appHomeAppbarOffset.value += Offset(0, 2);
     searchScreenAppbarOffset.value -= Offset(0, -2);
     animationCrtl.fling(velocity: 1.0);
@@ -117,9 +119,7 @@ class HomeTabController extends GetxController
     isLoadingFoodCategories.value = true;
 
     AppResponse<List<FoodCategoryViewModel>> response =
-        await productService.loadFoodCategories({
-      "sKey": Strings.apiKey,
-    });
+        await productService.loadFoodCategories({"sKey": Strings.apiKey});
 
     if (response.responseGrades == ResponseGrades.ERROR) return;
 

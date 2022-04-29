@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/widgets.dart';
 import 'package:food_yours_customer/api/app_response.dart';
 import 'package:food_yours_customer/common/widget/notification_widgets.dart';
@@ -10,39 +12,38 @@ import 'package:food_yours_customer/resources/enums.dart';
 import 'package:food_yours_customer/resources/strings.dart';
 import 'package:food_yours_customer/search/screen/filter_screen.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:hive/hive.dart';
 
 class HomeTabBackPanelController extends GetxController {
-  late HomeTabController homeTabCrtl = Get.find<HomeTabController>();
+  late HomeTabController homeTabCrtl = Get.find();
   final ProductService productService = Get.find();
 
-  RxBool isLoadingMeal = false.obs;
   RxString loadingMessage = "".obs;
+  RxBool isLoadingMeal = false.obs;
   RxBool isLoadingSuggestions = false.obs;
   RxBool isLoadingRecentSearches = false.obs;
 
-  TextEditingController seachQueryTextController = TextEditingController();
+  TextEditingController searchQueryTextController = TextEditingController();
 
-  clearSeachInputField() => seachQueryTextController.text = "";
+  clearSearchInputField() => searchQueryTextController.text = "";
 
   RxList<MealSearchViewModel> suggestedMeals = <MealSearchViewModel>[].obs;
 
   Rx<MealViewModel> meal = MealViewModel().obs;
 
-  Rx<FocusNode> seachTextFieldFocusNode = FocusNode().obs;
+  Rx<FocusNode> searchTextFieldFocusNode = FocusNode().obs;
 
-  Future<Iterable<MealSearchViewModel>> loadMealSugguestions(
-      String seachQuery) async {
+  Future<Iterable<MealSearchViewModel>> loadMealSuggestions(
+      String searchQuery) async {
     Map<String, dynamic> requestInformation =
-        setSearchQueryInformation(seachQuery);
+        setSearchQueryInformation(searchQuery);
 
     isLoadingSuggestions.value = true;
 
     AppResponse response =
-        await productService.loadMealSugguestions(requestInformation);
+        await productService.loadMealSuggestions(requestInformation);
 
     isLoadingSuggestions.value = false;
 
@@ -59,16 +60,16 @@ class HomeTabBackPanelController extends GetxController {
     Hive.box(Strings.SEARCH_HISTORY_BOX).delete(index);
   }
 
-  Map<String, dynamic> setSearchQueryInformation(String seachQuery) {
+  Map<String, dynamic> setSearchQueryInformation(String searchQuery) {
     return {
-      "foodName": seachQuery,
+      "foodName": searchQuery,
       "foodLocation": "",
       "sKey": Strings.apiKey,
     };
   }
 
   void onSelected(MealSearchViewModel value) {
-    seachQueryTextController.text = value.name;
+    searchQueryTextController.text = value.name;
     Hive.box(Strings.SEARCH_HISTORY_BOX).add(value.name);
     onMealSelected(value);
   }
@@ -77,6 +78,11 @@ class HomeTabBackPanelController extends GetxController {
       Get.to(() => ProductScreen(), arguments: {"meal": meal.value});
 
   onMealSelected(MealSearchViewModel selectedMeal) async {
+    await loadMeals(selectedMeal);
+    gotoMealScreen();
+  }
+
+  loadMeals(MealSearchViewModel selectedMeal) async {
     isLoadingMeal.value = true;
 
     loadingMessage.value = "Fetching meal";
@@ -92,8 +98,6 @@ class HomeTabBackPanelController extends GetxController {
     if (response.responseGrades == ResponseGrades.ERROR) return;
 
     meal.value = response.data!;
-
-    gotoMealScreen();
   }
 
   Map<String, dynamic> setRequestInformation(String id) {

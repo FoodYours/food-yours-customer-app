@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/cart/controller/cart_tab_controller.dart';
-import 'package:food_yours_customer/cart/model/cart_model.dart';
-import 'package:food_yours_customer/common/widget/app_button.dart';
+import 'package:food_yours_customer/cart/view_model/cart_items_view_model.dart';
+import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
+import 'package:food_yours_customer/common/widget/key_value_text.dart';
 import 'package:food_yours_customer/resources/Images.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
+import 'package:food_yours_customer/util/money_formatter_util.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:get/instance_manager.dart';
@@ -12,7 +14,7 @@ import 'package:get/instance_manager.dart';
 class CartCard extends StatelessWidget {
   final CartTabController widgetCtrl = Get.find<CartTabController>();
 
-  final CartModel cartItem;
+  final CartItemsViewModel cartItem;
 
   CartCard(this.cartItem);
 
@@ -21,20 +23,21 @@ class CartCard extends StatelessWidget {
     final Function sh = sHeight(context);
     final Function sw = sWidth(context);
 
-    return FYButton(
-      onTap: widgetCtrl.gotoCartOrderSummaryScreen,
+    return FYFlatButton(
+      onPressed: widgetCtrl.gotoCartOrderSummaryScreen,
       child: Container(
-        height: sh(98),
+        height: sh(Dimens.k98),
         width: double.maxFinite,
-        padding: EdgeInsets.symmetric(horizontal: sw(8)),
+        padding: EdgeInsets.symmetric(horizontal: sw(Dimens.k8)),
         decoration: BoxDecoration(
           color: context.theme.backgroundColor,
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(Dimens.k4),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.01),
-                blurRadius: 8,
-                offset: Offset(0, 1))
+              color: Colors.black.withOpacity(0.01),
+              blurRadius: 8,
+              offset: Offset(0, 1),
+            ),
           ],
         ),
         child: Column(
@@ -44,74 +47,49 @@ class CartCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Center(
-                    child: Container(
-                      height: sh(82),
-                      width: sh(86),
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(Images.female_chef),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(4)),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: Images.female_chef,
+                      image: cartItem.chefImage,
+                      height: sh(Dimens.k82),
+                      width: sh(Dimens.k86),
+                      fit: BoxFit.cover,
+                      imageErrorBuilder: (c, o, t) => Image.asset(
+                        Images.female_chef,
+                        height: sh(Dimens.k82),
+                        width: sh(Dimens.k86),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  SizedBox(height: sh(7)),
+                  SizedBox(
+                    height: sh(Dimens.k7),
+                  ),
                   Container(
-                    width: sw(212),
+                    width: sw(Dimens.k212),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        RichText(
-                          textAlign: TextAlign.start,
-                          text: TextSpan(children: <TextSpan>[
-                            TextSpan(
-                              style: context.theme.textTheme.caption!
-                                  .copyWith(fontSize: sh(Dimens.k12)),
-                              text: "Order Chef: ",
-                            ),
-                            TextSpan(
-                              style: context.theme.textTheme.caption!.copyWith(
-                                  fontSize: sh(Dimens.k12),
-                                  fontWeight: FontWeight.w400,
-                                  color: FYColors.darkerBlack2),
-                              text: cartItem.chefName,
-                            ),
-                          ]),
+                        KeyValueText(
+                          keyText: "Order Chef: ",
+                          valueText: cartItem.chefName,
                         ),
-                        SizedBox(height: sh(8)),
-                        RichText(
-                          textAlign: TextAlign.start,
-                          text: TextSpan(children: <TextSpan>[
-                            TextSpan(
-                              style: context.theme.textTheme.caption!
-                                  .copyWith(fontSize: sh(Dimens.k12)),
-                              text: "Total Price: ",
-                            ),
-                            TextSpan(
-                              style: context.theme.textTheme.headline3!
-                                  .copyWith(fontSize: sh(Dimens.k12)),
-                              text: cartItem.total.toString(),
-                            ),
-                          ]),
+                        SizedBox(
+                          height: sh(Dimens.k8),
                         ),
-                        SizedBox(height: sh(8)),
-                        RichText(
-                          textAlign: TextAlign.start,
-                          text: TextSpan(children: <TextSpan>[
-                            TextSpan(
-                              style: context.theme.textTheme.caption!
-                                  .copyWith(fontSize: sh(Dimens.k12)),
-                              text: "Default Address: ",
-                            ),
-                            TextSpan(
-                              style: context.theme.textTheme.caption!.copyWith(
-                                  fontSize: sh(Dimens.k12),
-                                  fontWeight: FontWeight.w400,
-                                  color: FYColors.darkerBlack2),
-                              text: cartItem.address,
-                            ),
-                          ]),
+                        KeyValueText(
+                          keyText: "Total Price: ",
+                          valueText: MoneyFormatterUtil.format(cartItem.total),
+                          valueTextColor: FYColors.mainRed,
+                        ),
+                        SizedBox(
+                          height: sh(Dimens.k8),
+                        ),
+                        KeyValueText(
+                          keyText: "Default Address: ",
+                          valueText: "",
                         ),
                       ],
                     ),

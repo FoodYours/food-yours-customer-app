@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/widget/loading_gif.dart';
-import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:get/utils.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:loading_overlay/loading_overlay.dart';
@@ -18,9 +17,6 @@ class FYLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sh = sHeight(context);
-    final sw = sWidth(context);
-
     return Material(
       color: context.theme.backgroundColor,
       child: LoadingOverlay(

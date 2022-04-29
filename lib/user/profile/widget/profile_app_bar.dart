@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
-import 'package:food_yours_customer/common/widget/round_image.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
 import 'package:food_yours_customer/home/view_model/food_category_view_model.dart';
@@ -49,6 +47,12 @@ class FoodCategoryItem extends StatelessWidget {
                   placeholder: Images.popular_chef,
                   image: foodCategory.categoryImage,
                   fit: BoxFit.fill,
+                  imageErrorBuilder: (c, o, t) => Image.asset(
+                    Images.popular_chef,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),

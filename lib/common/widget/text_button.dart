@@ -21,7 +21,6 @@ class FYTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Function sh = sHeight(context);
-    Function sw = sWidth(context);
 
     return TextButton(
       onPressed: onPressed,

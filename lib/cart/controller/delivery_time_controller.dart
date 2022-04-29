@@ -1,16 +1,19 @@
-import 'package:equatable/equatable.dart';
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
+import 'package:food_yours_customer/common/model/delivery_day.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
 import 'package:food_yours_customer/common/widget/date_picker.dart';
+import 'package:food_yours_customer/common/widget/notification_widgets.dart';
 import 'package:food_yours_customer/resources/strings.dart';
 import 'package:food_yours_customer/util/date_time_util.dart';
 import 'package:get/route_manager.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:get/utils.dart';
 
 class DeliveryTimeScreenController extends GetxController {
   RxDouble subtotal = 0.0.obs;
+
   RxDouble total = 0.0.obs;
 
   TextEditingController deliveryTimeTextController = TextEditingController();
@@ -19,48 +22,9 @@ class DeliveryTimeScreenController extends GetxController {
 
   RxInt indexOfSelectedDay = (-1).obs;
 
-  DateTime endTimeForDeliveryAsDateTime = DateTime.now();
+  String selectedDeliveryTime = "";
 
-  onTimeSelected() async {
-    try {
-      TimeOfDay startTimeForDeliveryAsTimeOfDay =
-          await showAppTimePicker("Delivery duration: Start", TimeOfDay.now());
-
-      DateTime startTimeForDeliveryAsDateTime =
-          DateTimeUtil.timeOfDayToDateTime(startTimeForDeliveryAsTimeOfDay);
-
-      String startTimeOfDeliveryAsString = DateTimeUtil.dateTimeToString(
-          startTimeForDeliveryAsDateTime, Strings.HOUR_MINUTE_PM);
-
-      TimeOfDay endTimeForDeliveryAsTimeOfDay = await showAppTimePicker(
-          "Delivery duration: End",
-          startTimeForDeliveryAsTimeOfDay.replacing(
-              hour: startTimeForDeliveryAsTimeOfDay.hour + 1,
-              minute: startTimeForDeliveryAsTimeOfDay.minute));
-
-      endTimeForDeliveryAsDateTime =
-          DateTimeUtil.timeOfDayToDateTime(endTimeForDeliveryAsTimeOfDay);
-
-      String endTimeForDeliveryAsString = DateTimeUtil.dateTimeToString(
-          endTimeForDeliveryAsDateTime, Strings.HOUR_MINUTE_PM);
-
-      if (DateTime.now().difference(startTimeForDeliveryAsDateTime).inMinutes >
-          5) {
-        deliverTimeError.value =
-            "Delivery time should be greater than current time";
-      } else if (endTimeForDeliveryAsDateTime
-              .difference(startTimeForDeliveryAsDateTime)
-              .inMinutes <
-          55) {
-        deliverTimeError.value = "Delivery duration sould be at least an hour";
-      } else {
-        deliveryTimeTextController.text =
-            "$startTimeOfDeliveryAsString $endTimeForDeliveryAsString";
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  RxList<DeliveryDay> chefDeliveryDays = <DeliveryDay>[].obs;
 
   @override
   void onReady() {
@@ -69,44 +33,78 @@ class DeliveryTimeScreenController extends GetxController {
   }
 
   void initGetArguments() {
-    String todayAsString =
-        DateTimeUtil.dateTimeToDayOfWeekString(DateTime.now());
+    setAvailableDeliveryDate();
+  }
 
-    DeliveryDay todayAsDeliveryDayObject =
-        DeliveryDay(dayOfWeek: todayAsString.toLowerCase(), enabled: false);
+  void setAvailableDeliveryDate() {
+    String today = DateTimeUtil.dateTimeToDayOfWeek(DateTime.now());
 
-    (Get.arguments["deliveryDays"] as List).forEach((deliveryDayAsString) {
-      DeliveryDay deliveryDayObject =
-          DeliveryDay(dayOfWeek: deliveryDayAsString, enabled: false);
+    int indexOfToday = deliveryDays.indexWhere(
+        (DeliveryDay e) => e.dayOfWeek.toLowerCase() == today.toLowerCase());
 
-      int indexOfOneChefDeliveryDay =
-          deliveryDays.indexWhere((e) => e == deliveryDayObject);
+    DateTime deliveryDate_ = DateTime.now()..add(Duration(hours: 3));
 
-      int indexOfToday = deliveryDays
-          .indexWhere((element) => element == todayAsDeliveryDayObject);
+    chefDeliveryDays.value = (Get.arguments["deliveryDays"] as List)
+        .asMap()
+        .map((int i, e) {
+          DeliveryDay deliveryDay = DeliveryDay(dayOfWeek: e, enabled: false);
 
-      if (deliveryDays.contains(deliveryDayObject) &&
-          (indexOfOneChefDeliveryDay >= indexOfToday)) {
-        deliveryDays.value[indexOfOneChefDeliveryDay]..enabled = true;
-      }
+          if (deliveryDays.contains(deliveryDay) &&
+              (i >= indexOfToday) &&
+              deliveryDate_.hour >= 8 &&
+              deliveryDate_.hour <= 20) {
+            deliveryDays.value[i].enabled = true;
+          }
+          return MapEntry(i, deliveryDay);
+        })
+        .values
+        .toList();
+  }
+
+  onDeliveryDaySelected(int index) => indexOfSelectedDay.value = index;
+
+  void validateInputs() {
+    if (GetUtils.isLengthLessThan(indexOfSelectedDay.value, 0)) {
+      showFYSnackBar(message: Strings.validDeliveryDateErrorMessage);
+    } else if (GetUtils.isBlank(selectedDeliveryTime)!) {
+      showFYSnackBar(message: Strings.validDeliveryTimeErrorMessage);
+    } else {
+      gotoCartOrderSummaryScreen();
+    }
+  }
+
+  void gotoCartOrderSummaryScreen() {
+    Get.back(result: {
+      "deliveryDay": chefDeliveryDays.value[indexOfSelectedDay.value],
+      "deliverTime": selectedDeliveryTime,
     });
   }
 
-  onSelectDeliveryDay(int index) {
-    indexOfSelectedDay.value = index;
+  onTimeSelected() async {
+    try {
+      DateTime? deliveryTime = await showAppTimePicker();
+      validateSelectedTime(deliveryTime);
+    } catch (e) {
+      print(e);
+    }
   }
 
-  void validateInputs() => Get.back(result: {
-        "deliveryDay": deliveryDays.value[indexOfSelectedDay.value],
-        "deliverTime": endTimeForDeliveryAsDateTime,
-      });
-}
+  void validateSelectedTime(DateTime? deliveryTime) {
+    DateTime now = DateTime.now();
+    if (deliveryTime == null || deliveryTime.difference(now).inHours < 2) {
+      showFYSnackBar(
+          message:
+              "Delivery time should be at least 3 hours from current time");
+    } else {
+      setSelectedTime(deliveryTime);
+    }
+  }
 
-class DeliveryDay extends Equatable {
-  String dayOfWeek;
-  bool enabled;
-  DeliveryDay({required this.dayOfWeek, this.enabled = false});
+  void setSelectedTime(DateTime deliveryTime) {
+    String deliveryTimeString =
+        DateTimeUtil.dateTimeToString(deliveryTime, Strings.HOUR_MINUTE_PM);
 
-  @override
-  List<Object?> get props => [dayOfWeek];
+    deliveryTimeTextController.text = "$deliveryTimeString";
+    selectedDeliveryTime = "${deliveryTime} ${deliveryTimeTextController.text}";
+  }
 }

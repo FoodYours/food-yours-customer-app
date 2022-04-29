@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
-import 'package:food_yours_customer/common/widget/text/mulish_400_text.dart';
+import 'package:food_yours_customer/common/widget/delivery_detail_item.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_600_text.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
@@ -51,81 +51,50 @@ class DeliveryDetailsSection extends StatelessWidget {
             horizontal: sw(Dimens.k24),
             vertical: sh(Dimens.k12),
           ),
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Mulish400Text(
-                    text: "Address",
-                    fontSize: sh(Dimens.k12),
-                  ),
-                  SizedBox(
-                    height: sh(Dimens.k45),
-                  ),
-                  Mulish400Text(
-                    text: "Contact:",
-                    fontSize: sh(Dimens.k12),
-                  ),
-                  SizedBox(
-                    height: sh(Dimens.k4),
-                  ),
-                  Mulish400Text(
-                    text: "Date & Time:",
-                    fontSize: sh(Dimens.k12),
-                  ),
-                ],
+              DeliveryDetailItem(
+                leading: "Address:",
+                title: address /* "23 Barnawa, Kaduna Nigeria." */,
               ),
-              SizedBox(
-                width: sw(Dimens.k48),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Mulish600Text(
-                    text: address,
-                    fontSize: sh(Dimens.k12),
-                    color: FYColors.darkerBlack2,
-                  ),
-                  SizedBox(height: sh(15)),
-                  FYFlatButton(
-                    onPressed: () => gotoChangeAddressScreen(),
-                    size: Size(Dimens.k83, Dimens.k20),
+              DeliveryDetailItem(
+                titleWidget: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FYFlatButton(
                     child: Mulish600Text(
                       text: "Tap to Change",
                       color: FYColors.mainBlue,
                       fontSize: sh(Dimens.k12),
                     ),
+                    size: Size(Dimens.k0, Dimens.k0),
+                    onPressed: gotoChangeAddressScreen,
                   ),
-                  SizedBox(height: sh(15)),
-                  Mulish600Text(
-                    text: recipientNumber,
-                    fontSize: sh(Dimens.k12),
-                    color: FYColors.darkerBlack2,
-                  ),
-                  SizedBox(height: sh(Dimens.k4)),
-                  Mulish600Text(
-                    text: deliveryDate,
-                    fontSize: sh(Dimens.k12),
-                    color: FYColors.darkerBlack2,
-                  ),
-                  SizedBox(
-                    height: sh(Dimens.k10),
-                  ),
-                  FYFlatButton(
-                    onPressed: gotoChangeDeliveryTimeScreen,
-                    size: Size(Dimens.k61, Dimens.k20),
+                ),
+              ),
+              DeliveryDetailItem(
+                leading: "Contact:",
+                title: recipientNumber,
+              ),
+              DeliveryDetailItem(
+                leading: "Date & Time:",
+                title: deliveryDate,
+              ),
+              DeliveryDetailItem(
+                titleWidget: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FYFlatButton(
                     child: Mulish600Text(
                       text: "Tap to Edit",
                       color: FYColors.mainBlue,
                       fontSize: sh(Dimens.k12),
                     ),
-                  )
-                ],
-              )
+                    size: Size(Dimens.k0, Dimens.k0),
+                    onPressed: gotoChangeDeliveryTimeScreen,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

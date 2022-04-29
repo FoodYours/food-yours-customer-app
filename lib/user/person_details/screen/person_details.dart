@@ -127,18 +127,20 @@ class PersonalDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: sh(16)),
-                  Obx(() => InputFieldWrapper(
-                        labelText: "Gender",
-                        child: FYDropDownButton(
-                          errorMessage: widgetCtrl.genderError.value,
-                          hintText: "Gender",
-                          onChanged: widgetCtrl.onGenderSelected,
-                          selectedOption: widgetCtrl.selectedGender.value,
-                          isExpanded: true,
-                          options: widgetCtrl.genders,
-                          borderColor: FYColors.lighterBlack2,
-                        ),
-                      )),
+                  Obx(
+                    () => InputFieldWrapper(
+                      labelText: "Gender",
+                      child: FYDropDownButton(
+                        errorMessage: widgetCtrl.genderError.value,
+                        hintText: "Gender",
+                        onChanged: widgetCtrl.onGenderSelected,
+                        selectedOption: widgetCtrl.selectedGender.value,
+                        isExpanded: true,
+                        options: widgetCtrl.genders,
+                        borderColor: FYColors.lighterBlack2,
+                      ),
+                    ),
+                  ),
                   SizedBox(height: sh(16)),
                   InputFieldWrapper(
                     labelText: "Password",

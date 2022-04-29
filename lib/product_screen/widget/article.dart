@@ -32,6 +32,7 @@ class Article extends StatelessWidget {
         SizedBox(height: sh(spaceBetween ?? Dimens.k4)),
         Mulish400Text(
           text: description,
+          maxLines: 2,
           fontSize: sh(descriptionFontSize ?? Dimens.k16),
         ),
       ],

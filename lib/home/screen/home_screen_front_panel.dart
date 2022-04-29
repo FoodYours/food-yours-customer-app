@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_700_text.dart';
@@ -41,11 +43,15 @@ class HomeScreenFrontPanel extends StatelessWidget {
           height: sh(Dimens.k8),
         ),
         Obx(
-          () => FoodCategoryList(
-            selectedCategoryIndex: homeTabCrtl.selectedFoodCategoryIndex.value,
-            onCategorySelected: homeTabCrtl.onCategorySelected,
-            isLoading: homeTabCrtl.isLoadingFoodCategories.value,
-            foodCategories: foodCategories.value,
+          () => Padding(
+            padding: EdgeInsets.symmetric(horizontal: sw(Dimens.k25)),
+            child: FoodCategoryList(
+              selectedCategoryIndex:
+                  homeTabCrtl.selectedFoodCategoryIndex.value,
+              onCategorySelected: homeTabCrtl.onCategorySelected,
+              isLoading: homeTabCrtl.isLoadingFoodCategories.value,
+              foodCategories: foodCategories.value,
+            ),
           ),
         ),
         SizedBox(

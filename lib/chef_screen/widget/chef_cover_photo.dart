@@ -12,7 +12,6 @@ class ChefCoverPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Function sh = sHeight(context);
-    final Function sw = sWidth(context);
 
     return Container(
       height: sh(245),

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/widget/button/fy_svg_button.dart';
 import 'package:food_yours_customer/common/widget/loader.dart';
@@ -69,7 +71,7 @@ class SearchScreen extends StatelessWidget {
                     Obx(
                       () => FoundItemsText(
                         mealsCount: widgetCtrl.mealsCount.value,
-                        seachText: widgetCtrl.searchTextEditingController.text,
+                        searchText: widgetCtrl.searchTextEditingController.text,
                       ),
                     ),
                     SizedBox(

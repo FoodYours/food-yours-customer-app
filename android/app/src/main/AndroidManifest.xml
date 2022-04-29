@@ -2,7 +2,13 @@
     package="com.foodyours">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <queries>
+      <!-- If your app sends emails -->
+      <intent>
+        <action android:name="android.intent.action.SEND" />
+        <data android:mimeType="*/*" />
+      </intent>
+    </queries>
    <application
         android:label="food_yours_customer"
         android:icon="@mipmap/ic_launcher">

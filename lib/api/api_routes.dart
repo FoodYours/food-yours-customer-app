@@ -13,4 +13,8 @@ class Routes {
   static final chefMeals = "/Kitchen.php";
   static final chefReviews = "/viewReviews.php";
   static final rateChef = "/sendReview.php";
+  static final requestOtp = "/requestOtp.php";
+  static final verifyOtp = "/verifyOtp.php";
+  static final fetchCart = "/fetchCart.php";
+  static final getAddresses = "/getAddresses.php";
 }

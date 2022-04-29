@@ -10,32 +10,23 @@ class ProductRepositoryMock implements ProductRepository {
   loadMealSugguestions(Map<String, dynamic> requestInformation) {}
 
   @override
-  loadMeal(Map<String, dynamic> requestInformation) {
-    // TODO: implement loadMealData
-    throw UnimplementedError();
-  }
+  loadMeal(Map<String, dynamic> requestInformation) {}
 
   @override
-  getDeliveryPrice() {
-    // TODO: implement getDeliveryPrice
-    throw UnimplementedError();
-  }
+  getDeliveryPrice() {}
 
   @override
-  loadChef(Map<String, dynamic> requestInformation) {
-    // TODO: implement loadChef
-    throw UnimplementedError();
-  }
+  loadChef(Map<String, dynamic> requestInformation) {}
 
   @override
-  loadMealsByChef(Map<String, dynamic> requestInformation) {
-    // TODO: implement loadMealsByChef
-    throw UnimplementedError();
-  }
+  loadMealsByChef(Map<String, dynamic> requestInformation) {}
 
   @override
-  loadChefReviews(Map<String, dynamic> requestInformation) {
-    // TODO: implement loadChefReviews
+  loadChefReviews(Map<String, dynamic> requestInformation) {}
+
+  @override
+  addToOnlineCart(Map<String, dynamic> requestInformation) {
+    // TODO: implement addToOnlineCart
     throw UnimplementedError();
   }
 }

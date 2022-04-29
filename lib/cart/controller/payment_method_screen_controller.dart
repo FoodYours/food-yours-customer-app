@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:food_yours_customer/cart/interface/interface_cart_order.dart';
 import 'package:food_yours_customer/cart/service/food_yours_payment_service/food_yours_payment_service.dart';
@@ -30,7 +29,26 @@ class PaymentMethodScreenController extends GetxController
 
   @override
   placeOrder() async {
+    switch (paymentMethod.value) {
+      case PaymentMethod.DEFAULT:
+        showFYSnackBar(message: "Please select a method of payment");
+        break;
+      case PaymentMethod.PAYSTACK:
+        payWithPaystack();
+        break;
+      case PaymentMethod.WALLET:
+        showFYSnackBar(message: "Coming soon ...");
+        break;
+      case PaymentMethod.POINTS:
+        showFYSnackBar(message: "Coming soon ...");
+        break;
+      default:
+    }
+  }
+
+  payWithPaystack() async {
     Charge charge = generateCharge();
+
     CheckoutResponse checkoutResponse =
         await foodYoursPaymentService.checkOut(charge);
 
@@ -39,12 +57,11 @@ class PaymentMethodScreenController extends GetxController
     showFYSnackBar(message: "An error occured ...");
   }
 
-  onSelectPaymentMethod(PaymentMethod value) {
+  onPaymentMethodSelected(PaymentMethod value) {
     paymentMethod.value = value;
   }
 
   Charge generateCharge() {
-    var parse = int.parse(total.value.substring(0, total.value.indexOf(".")));
     return Charge()
       ..amount = int.parse(total.value.substring(0, total.value.indexOf(".")))
       ..reference = "qwertyuioo" /* _getReference() */

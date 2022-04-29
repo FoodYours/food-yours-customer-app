@@ -1,23 +1,20 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
-import 'package:food_yours_customer/common/widget/app_button.dart';
+import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class PaymentMethodCard extends StatelessWidget {
   final Widget cardTitle;
-  final TextSpan cardKeyText;
-  final TextSpan cardValueText;
+  final Widget cardSubTitle;
   final bool isImage;
   final Function()? onTap;
   final bool isSelected;
 
   PaymentMethodCard({
     required this.cardTitle,
-    required this.cardValueText,
-    required this.cardKeyText,
+    required this.cardSubTitle,
     required this.isSelected,
     this.isImage = false,
     this.onTap,
@@ -29,8 +26,10 @@ class PaymentMethodCard extends StatelessWidget {
     final Function sw = sWidth(context);
 
     return Expanded(
-      child: FYButton(
-        onTap: onTap,
+      child: FYFlatButton(
+        backgroundColor: FYColors.subtleBlack5,
+        onPressed: onTap,
+        padding: EdgeInsets.symmetric(horizontal: Dimens.k3),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Dimens.k12),
           child: Card(
@@ -59,20 +58,10 @@ class PaymentMethodCard extends StatelessWidget {
                       )),
                   SizedBox(height: sh(4.75)),
                   cardTitle,
-                  SizedBox(height: sh(isImage ? 0 : 8)),
-                  isImage
-                      ? AutoSizeText("Paystack",
-                          style: context.theme.textTheme.caption!.copyWith(
-                              fontSize: sh(Dimens.k16),
-                              fontWeight: FontWeight.w700,
-                              color: FYColors.subtleBlue5))
-                      : RichText(
-                          textAlign: TextAlign.start,
-                          text: TextSpan(children: <TextSpan>[
-                            cardValueText,
-                            cardKeyText,
-                          ]),
-                        ),
+                  SizedBox(
+                    height: sh(isImage ? 0 : 8),
+                  ),
+                  cardSubTitle,
                 ],
               ),
             ),

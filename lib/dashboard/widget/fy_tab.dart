@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/dashboard/view_model/tab_info.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
@@ -36,7 +35,9 @@ class FYTabIndicator extends StatelessWidget {
       height: sh(Dimens.k2),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.k4),
-          color: tabInfoViewModel.isSelected ? Theme.of(context).tabBarTheme.labelColor : Colors.transparent),
+          color: tabInfoViewModel.isSelected
+              ? Theme.of(context).tabBarTheme.labelColor
+              : Colors.transparent),
     );
   }
 }

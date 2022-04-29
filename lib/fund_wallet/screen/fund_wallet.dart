@@ -1,14 +1,11 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_yours_customer/common/widget/input_field_wrapper.dart';
 import 'package:food_yours_customer/common/widget/secondary_app_bar.dart';
 import 'package:food_yours_customer/common/widget/text_field/secondary_text_field.dart';
 import 'package:food_yours_customer/common/widget/text_button.dart';
 import 'package:food_yours_customer/fund_wallet/widget/credit_card_front.dart';
-import 'package:food_yours_customer/resources/Images.dart';
 import 'package:food_yours_customer/resources/colors.dart';
-import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 

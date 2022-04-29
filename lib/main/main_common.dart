@@ -6,7 +6,6 @@ import 'package:food_yours_customer/app/app.dart';
 import 'package:food_yours_customer/app/app_bindings.dart';
 import 'package:food_yours_customer/common/service/hive_service.dart';
 import 'package:food_yours_customer/config/app_config.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 late ApiClient api;

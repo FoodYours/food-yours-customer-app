@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_yours_customer/resources/style.dart';
 
 class LocalTheme extends StatelessWidget {
   final Widget child;
@@ -27,7 +26,8 @@ class LocalTheme extends StatelessWidget {
           primaryColor: primaryColor,
           backgroundColor: backGroundColor,
           textButtonTheme: TextButtonThemeData(style: buttonStyle),
-          outlinedButtonTheme: OutlinedButtonThemeData(style: outlineButtonStyle),
+          outlinedButtonTheme:
+              OutlinedButtonThemeData(style: outlineButtonStyle),
           textTheme: TextTheme(
             button: buttonTextStyle,
             bodyText2: bodyStyle2,

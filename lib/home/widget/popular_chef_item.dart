@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +44,12 @@ class PopularChefItem extends StatelessWidget {
                 height: sh(Dimens.k141_18),
                 width: sh(Dimens.k142),
                 fit: BoxFit.cover,
+                imageErrorBuilder: (c, o, t) => Image.asset(
+                  Images.popular_chef,
+                  height: sh(Dimens.k141_18),
+                  width: sh(Dimens.k142),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

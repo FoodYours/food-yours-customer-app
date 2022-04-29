@@ -24,19 +24,25 @@ class ChefCircularImage extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       children: [
         Container(
-          height: sh(Dimens.k45),
-          width: sw(Dimens.k45),
+          height: sh(backgroundDiameter),
+          width: sw(backgroundDiameter),
           decoration:
               BoxDecoration(color: Colors.white, shape: BoxShape.circle),
         ),
         ClipRRect(
-          borderRadius: BorderRadius.circular(Dimens.k50),
+          borderRadius: BorderRadius.circular(70),
           child: FadeInImage.assetNetwork(
             placeholder: Images.chef,
             image: chefImage,
             fit: BoxFit.cover,
-            height: sh(Dimens.k40),
-            width: sw(Dimens.k40),
+            height: sh(foregroundDiameter),
+            width: sw(foregroundDiameter),
+            imageErrorBuilder: (c, o, t) => Image.asset(
+              Images.chef,
+              width: sw(foregroundDiameter),
+              height: sh(foregroundDiameter),
+              fit: BoxFit.cover,
+            ),
           ),
         )
       ],

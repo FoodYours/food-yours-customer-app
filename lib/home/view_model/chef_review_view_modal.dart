@@ -23,7 +23,7 @@ class ChefReviewViewModel {
       : id = json?['id'] ?? "",
         userRemark = json?['userRemark'] ?? "",
         userRating = json?['userRating'] ?? "",
-        userDate = json?['userDate'] ?? "",
+        userDate = json?['userDate'] ?? DateTime.now().toString(),
         userName = json?['userName'] ?? "",
         userImage = json?['userImage'] ?? "",
         chefPostedTo = json?['chefPostedTo'] ?? "";

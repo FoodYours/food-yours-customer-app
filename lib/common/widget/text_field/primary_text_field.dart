@@ -65,7 +65,6 @@ class PrimaryTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sh = sHeight(context);
-    final sw = sWidth(context);
 
     return TextField(
       inputFormatters: inputFormatters,

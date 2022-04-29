@@ -10,6 +10,8 @@ class Mulish400Text extends StatelessWidget {
   final double? fontSize;
   final TextDecoration textDecoration;
   final FontStyle fontStyle;
+  final TextOverflow overflow;
+  final int maxLines;
 
   const Mulish400Text({
     Key? key,
@@ -19,6 +21,8 @@ class Mulish400Text extends StatelessWidget {
     this.fontSize = Dimens.k16,
     this.textDecoration = TextDecoration.none,
     this.fontStyle = FontStyle.normal,
+    this.overflow: TextOverflow.ellipsis,
+    this.maxLines: 1,
   }) : super(key: key);
 
   @override
@@ -28,8 +32,10 @@ class Mulish400Text extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: context.theme.textTheme.headline2!.copyWith(
         color: color,
+        overflow: overflow,
         fontSize: sh(fontSize),
         decoration: textDecoration,
         fontStyle: fontStyle,

@@ -19,7 +19,28 @@ class UserRepositoryImpl implements UserRepository {
   @override
   saveProfileDetails(Map<String, dynamic> requestInformation) async {
     try {
-      return await apiClient.dio!.post(Routes.editProfile, data: requestInformation);
+      return await apiClient.dio!
+          .post(Routes.editProfile, data: requestInformation);
+    } on DioError catch (e) {
+      return apiClient.handleError(e);
+    }
+  }
+
+  @override
+  requestVerificationCode(Map<String, dynamic> requestInformation) async {
+    try {
+      return await apiClient.dio!
+          .post(Routes.requestOtp, data: requestInformation);
+    } on DioError catch (e) {
+      return apiClient.handleError(e);
+    }
+  }
+
+  @override
+  verifyCode(Map<String, dynamic> requestInformation) async {
+    try {
+      return await apiClient.dio!
+          .post(Routes.verifyOtp, data: requestInformation);
     } on DioError catch (e) {
       return apiClient.handleError(e);
     }

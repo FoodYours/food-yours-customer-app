@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/widget/button/fy_text_button.dart';
-import 'package:food_yours_customer/common/widget/local_theme.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_400_text.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_700_text.dart';
 import 'package:food_yours_customer/home/controller/home_tab_front_panel_controller.dart';
@@ -10,7 +7,6 @@ import 'package:food_yours_customer/resources/Images.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:get/instance_manager.dart';
 
 class LargeOrderBanner extends StatelessWidget {

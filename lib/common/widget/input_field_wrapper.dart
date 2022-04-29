@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
+import 'package:food_yours_customer/common/widget/text/mulish_600_text.dart';
+import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class InputFieldWrapper extends StatelessWidget {
   final String labelText;
@@ -28,7 +27,11 @@ class InputFieldWrapper extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(labelText, style: context.theme.textTheme.headline4!.copyWith(fontSize: sh(Dimens.k12))),
+        Mulish600Text(
+          text: labelText,
+          fontSize: sh(Dimens.k12),
+          color: FYColors.lighterBlack2,
+        ),
         SizedBox(height: sh(spaceBetween ?? sh(2))),
         child,
       ],

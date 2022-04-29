@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:shimmer/shimmer.dart';
@@ -15,7 +13,6 @@ class ShimmerWidget extends StatelessWidget {
       this.width = double.infinity});
   @override
   Widget build(BuildContext context) {
-    final Function sh = sHeight(context);
     final Function sw = sWidth(context);
 
     return Shimmer.fromColors(

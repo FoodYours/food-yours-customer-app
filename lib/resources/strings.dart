@@ -3,6 +3,10 @@ class Strings {
       "please this field cannot be blank";
   static final String validPhoneNumberErrorMessage =
       "please enter a valid phone number";
+  static final String validDeliveryDateErrorMessage =
+      "please select a valid delivery day";
+  static final String validDeliveryTimeErrorMessage =
+      "please valid a delivery time";
   static final String validEmailErrorMessage = "please enter a valid email";
   static String lessThanEightCharErrorMessage =
       "password should be at least 8 characters";
@@ -33,6 +37,10 @@ class Strings {
   static final String DAY_MONTH_YEAR = "dd/MM/yyyy";
   static final String ONGOING = "ongoing";
   static final String DELIVERED = "delivered";
+  static final String mainAddress = "mainAddress";
+  static final String otherAddress = "otherAddress";
+  static final String workAddress = "workAddress";
+  static final String LOCALE = "en_NG";
 
   // ========================================================================================>
 

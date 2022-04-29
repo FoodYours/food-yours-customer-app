@@ -10,6 +10,7 @@ class FYIconButton extends StatelessWidget {
   final double iconSize;
   final double splashRadius;
   final EdgeInsetsGeometry padding;
+  final BoxConstraints constraints;
 
   const FYIconButton({
     Key? key,
@@ -19,6 +20,7 @@ class FYIconButton extends StatelessWidget {
     this.iconSize = Dimens.k24,
     this.splashRadius = Dimens.k20,
     this.padding = const EdgeInsets.all(8.0),
+    this.constraints = const BoxConstraints(),
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class FYIconButton extends StatelessWidget {
 
     return IconButton(
       padding: padding,
-      constraints: const BoxConstraints(),
+      constraints: constraints,
       icon: Icon(
         icon,
         size: sh(iconSize),

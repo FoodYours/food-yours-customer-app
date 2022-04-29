@@ -11,12 +11,14 @@ class FoodItemsSection extends StatelessWidget {
   final Function increaseItemQuantity;
   final Function decreaseItemQuantity;
   final Function onCartItemSelected;
+  final int selectedFoodIndex;
 
   const FoodItemsSection({
     Key? key,
     required this.increaseItemQuantity,
     required this.decreaseItemQuantity,
     required this.onCartItemSelected,
+    required this.selectedFoodIndex,
   }) : super(key: key);
 
   @override
@@ -53,7 +55,7 @@ class FoodItemsSection extends StatelessWidget {
               ValueListenableBuilder<Box>(
                 valueListenable: Hive.box(Strings.CART_BOX).listenable(),
                 builder: (context, box, _) {
-                  return ListView.separated(
+                  return ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
@@ -63,15 +65,13 @@ class FoodItemsSection extends StatelessWidget {
                         increaseItemQuantity: increaseItemQuantity,
                         decreaseItemQuantity: decreaseItemQuantity,
                         onCartItemSelected: onCartItemSelected,
+                        isSelected: index == selectedFoodIndex,
                       );
                     },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(),
                     itemCount: box.values.length,
                   );
                 },
               ),
-              Divider(),
             ],
           ),
         ),

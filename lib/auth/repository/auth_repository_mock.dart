@@ -12,14 +12,8 @@ class AuthRepositoryMock implements AuthRepository {
   }
 
   @override
-  login(Map<String, dynamic> loginInformation) {
-    // TODO: implement login
-    throw UnimplementedError();
-  }
+  login(Map<String, dynamic> loginInformation) {}
 
   @override
-  initiatePasswordReset(Map<String, dynamic> passwordResetInformation) {
-    // TODO: implement initiatePasswordReset
-    throw UnimplementedError();
-  }
+  initiatePasswordReset(Map<String, dynamic> passwordResetInformation) {}
 }

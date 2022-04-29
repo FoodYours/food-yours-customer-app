@@ -4,7 +4,6 @@ import 'package:food_yours_customer/common/widget/text/mulish_600_text.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class MealCustomizationOptions extends StatelessWidget {
   final List<FYOptionItem> listItems;

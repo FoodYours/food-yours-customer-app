@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -49,7 +51,6 @@ class WelcomeScreenController extends GetxController
   }
 
   void gotoNextScreenWhenAppIsOpenedWithLinks() {
-    debugPrint(linkThatOpenedTheApp);
     Get.offAll(() => LoginScreen());
   }
 

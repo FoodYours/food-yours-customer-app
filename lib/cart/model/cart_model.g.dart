@@ -18,9 +18,10 @@ class CartModelAdapter extends TypeAdapter<CartModel> {
     };
     return CartModel(
       id: fields[8] as String,
+      key: fields[16] as int,
       mealName: fields[0] as String,
       quantity: (fields[1] as Map).cast<dynamic, dynamic>(),
-      suppliments: (fields[2] as List)
+      supplements: (fields[2] as List)
           .map((dynamic e) => (e as Map).cast<dynamic, dynamic>())
           .toList(),
       extras: (fields[3] as List)
@@ -36,19 +37,20 @@ class CartModelAdapter extends TypeAdapter<CartModel> {
       specifiedDeliveryAndTime: fields[12] as String,
       status: fields[13] as String,
       chefId: fields[14] as String,
+      chefImageUrl: fields[15] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CartModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.mealName)
       ..writeByte(1)
       ..write(obj.quantity)
       ..writeByte(2)
-      ..write(obj.suppliments)
+      ..write(obj.supplements)
       ..writeByte(3)
       ..write(obj.extras)
       ..writeByte(4)
@@ -72,7 +74,11 @@ class CartModelAdapter extends TypeAdapter<CartModel> {
       ..writeByte(13)
       ..write(obj.status)
       ..writeByte(14)
-      ..write(obj.chefId);
+      ..write(obj.chefId)
+      ..writeByte(15)
+      ..write(obj.chefImageUrl)
+      ..writeByte(16)
+      ..write(obj.key);
   }
 
   @override

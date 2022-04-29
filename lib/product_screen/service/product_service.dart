@@ -44,7 +44,7 @@ class ProductService {
         ResponseGrades.ERROR, response.statusCode!, "An error occurred");
   }
 
-  loadMealSugguestions(Map<String, dynamic> requestInformation) async {
+  loadMealSuggestions(Map<String, dynamic> requestInformation) async {
     Response response =
         await productRepository.loadMealSugguestions(requestInformation);
 
@@ -84,5 +84,22 @@ class ProductService {
     }
     return AppResponse<MealViewModel>(
         ResponseGrades.ERROR, response.statusCode!, "An error occurred");
+  }
+
+  Future<AppResponse> addToOnlineCart(Map<String, dynamic> json) async {
+    Response response = await productRepository.addToOnlineCart(json);
+
+    if (response.statusCode! >= 200 && response.statusCode! <= 300) {
+      return AppResponse(
+        ResponseGrades.SUCCESS,
+        response.statusCode!,
+        "Success",
+      );
+    }
+    return AppResponse(
+      ResponseGrades.ERROR,
+      response.statusCode!,
+      "An error occurred",
+    );
   }
 }

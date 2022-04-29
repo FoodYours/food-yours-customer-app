@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:food_yours_customer/auth/login/controller/login_screen_controller.dart';
-import 'package:food_yours_customer/auth/registration/screen/registration_screen.dart';
-import 'package:food_yours_customer/auth/widget/auth_card.dart';
+import 'package:food_yours_customer/common/widget/fy_raised_card.dart';
 import 'package:food_yours_customer/auth/widget/text_obscure_button.dart';
 import 'package:food_yours_customer/common/widget/auth_pages_background_image.dart';
 import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
-import 'package:food_yours_customer/common/widget/button/fy_icon_button.dart';
 import 'package:food_yours_customer/common/widget/button/fy_text_button.dart';
 import 'package:food_yours_customer/common/widget/button/underlined_text_button.dart';
 import 'package:food_yours_customer/common/widget/food_yours_logo.dart';
@@ -75,10 +72,8 @@ class LoginScreen extends StatelessWidget {
   Widget buildLoginForm(Function sw, BuildContext context) {
     Function sh = sHeight(context);
 
-    return AuthCard(
-      height: sh(Dimens.k405),
-      child: ListView(
-        padding: EdgeInsets.zero,
+    return FYRaisedCard(
+      child: Column(
         children: [
           SizedBox(
             height: sh(Dimens.k26),

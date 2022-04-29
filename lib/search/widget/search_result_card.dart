@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
 import 'package:food_yours_customer/home/view_model/meal_search_view_model.dart';
@@ -57,6 +59,12 @@ class SearchResultCard extends StatelessWidget {
                         placeholder: Images.search_result,
                         image: mealViewModel.mealImage,
                         fit: BoxFit.cover,
+                        imageErrorBuilder: (c, o, t) => Image.asset(
+                          Images.search_result,
+                          height: sh(Dimens.k124),
+                          width: sw(Dimens.k303),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

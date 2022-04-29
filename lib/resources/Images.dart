@@ -54,4 +54,7 @@ class Images {
   static final loading = "assets/images/loading.gif";
   static final ng = "assets/images/ng.png";
   static final chef_place_holder = "assets/images/place_holder.jpg";
+  static final star = "assets/images/star.svg";
+  static final female_chef_placeholder =
+      "assets/images/female_chef_placeholder.png";
 }

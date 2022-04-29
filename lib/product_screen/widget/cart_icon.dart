@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
@@ -10,12 +12,12 @@ import 'package:food_yours_customer/resources/strings.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class cartIcon extends StatelessWidget {
+class CartIcon extends StatelessWidget {
   final Function() onCartPressed;
   final AnimationController animationCtrl;
   final Animation<double> animation;
 
-  const cartIcon({
+  const CartIcon({
     Key? key,
     required this.onCartPressed,
     required this.animationCtrl,
@@ -48,9 +50,11 @@ class cartIcon extends StatelessWidget {
                 valueListenable:
                     Hive.box(Strings.RANDOM_INFORMATION_BOX).listenable(),
                 builder: (context, box, _) {
-                  int? cartItemsCount = box.get(Strings.CART_ITEMS_COUNT);
-                  if (cartItemsCount == 1) {
+                  int cartItemsCount = box.get(Strings.CART_ITEMS_COUNT) ?? 0;
+                  if (cartItemsCount > 0) {
                     animationCtrl.forward();
+                  } else {
+                    animationCtrl.reverse();
                   }
                   return ScaleTransition(
                     scale: animation,
@@ -58,7 +62,7 @@ class cartIcon extends StatelessWidget {
                       backgroundColor: FYColors.mainRed,
                       imageRadius: Dimens.k11,
                       child: Mulish700Text(
-                        text: "${cartItemsCount}",
+                        text: "${cartItemsCount == 0 ? "" : cartItemsCount}",
                         fontSize: Dimens.k14,
                         color: Colors.white,
                       ),

@@ -29,7 +29,11 @@ class PlaceOrderButton extends StatelessWidget {
               fontSize: sh(Dimens.k16),
               color: Colors.white,
             ),
-            Icon(Icons.arrow_forward_ios, color: Colors.white, size: sh(12))
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+              size: sh(Dimens.k12),
+            )
           ],
         ),
       ),

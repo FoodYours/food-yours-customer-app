@@ -1,10 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
+import 'package:food_yours_customer/common/widget/text/mulish_600_text.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/resources/icons.dart';
-import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class FYChip extends StatelessWidget {
   final String text;
@@ -21,31 +20,20 @@ class FYChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Function sh = sHeight(context);
-    final Function sw = sWidth(context);
-
     return Chip(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         backgroundColor: backgroundColor,
         deleteIcon: Icon(FYIcons.x, size: Dimens.k16),
         onDeleted: hideDeleteButton ? null : onDeleted,
-        label: SizedBox(
-          height: sh(20),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: sw(50),
-                child: AutoSizeText(
-                    text.substring(0, text.length >= 10 ? 11 : text.length),
-                    minFontSize: 4,
-                    style: context.theme.textTheme.headline3!.copyWith(
-                        fontSize: Dimens.k12,
-                        fontWeight: FontWeight.w600,
-                        color: textColor ?? FYColors.mainBlue)),
-              ),
-            ],
-          ),
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Mulish600Text(
+              text: text,
+              fontSize: Dimens.k12,
+              color: textColor ?? FYColors.mainBlue,
+            ),
+          ],
         ));
   }
 }

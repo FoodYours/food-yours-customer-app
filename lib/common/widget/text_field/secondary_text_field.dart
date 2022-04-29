@@ -90,7 +90,7 @@ class SecondaryTextField extends StatelessWidget {
         labelText: labelText,
         filled: true,
         fillColor: Colors.white,
-        hintStyle: context.theme.textTheme.caption!
+        hintStyle: context.theme.textTheme.headline2!
             .copyWith(fontSize: Dimens.k16, color: hintTextColor),
         errorText:
             errorMessage == "" || errorMessage == null ? null : errorMessage,

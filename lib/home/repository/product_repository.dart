@@ -14,4 +14,6 @@ class ProductRepository {
   loadMealsByChef(Map<String, dynamic> requestInformation) {}
 
   loadChefReviews(Map<String, dynamic> requestInformation) {}
+
+  addToOnlineCart(Map<String, dynamic> requestInformation) {}
 }

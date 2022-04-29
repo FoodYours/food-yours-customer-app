@@ -47,13 +47,19 @@ TextStyle bodyStyle1 = TextStyle(
 
 TextStyle bodyStyle2 = TextStyle(
   color: FYColors.mainBlack,
-  fontWeight: FontWeight.w400,
-  fontFamily: FontFamily.mulish,
+  fontWeight: FontWeight.w700,
+  fontFamily: FontFamily.inter,
 );
 
-TextStyle display2 = TextStyle(
+TextStyle subtitle2 = TextStyle(
   color: FYColors.mainBlack,
-  fontWeight: FontWeight.w300,
+  fontWeight: FontWeight.w600,
+  fontFamily: FontFamily.inter,
+);
+
+TextStyle subtitle1 = TextStyle(
+  color: FYColors.mainBlack,
+  fontWeight: FontWeight.w600,
   fontFamily: FontFamily.mulish,
 );
 

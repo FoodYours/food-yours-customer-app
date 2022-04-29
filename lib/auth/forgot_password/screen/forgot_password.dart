@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/auth/forgot_password/controller/forgot_password_screen_controller.dart';
-import 'package:food_yours_customer/auth/widget/auth_card.dart';
+import 'package:food_yours_customer/common/widget/fy_raised_card.dart';
 import 'package:food_yours_customer/common/widget/auth_pages_background_image.dart';
 import 'package:food_yours_customer/common/widget/button/fy_text_button.dart';
 import 'package:food_yours_customer/common/widget/button/underlined_text_button.dart';
@@ -69,10 +69,8 @@ class ForgetPasswordScreen extends StatelessWidget {
   Widget _buildResetPasswordForm(Function sw, BuildContext context) {
     Function sh = sHeight(context);
 
-    return AuthCard(
-      height: Dimens.k308,
-      child: ListView(
-        padding: EdgeInsets.zero,
+    return FYRaisedCard(
+      child: Column(
         children: [
           SizedBox(
             height: sh(Dimens.k26),

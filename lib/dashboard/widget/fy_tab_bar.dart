@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_yours_customer/dashboard/view_model/tab_info.dart';
 import 'package:food_yours_customer/dashboard/widget/fy_tab.dart';
-import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class FYTabBar extends StatelessWidget {
@@ -14,9 +13,6 @@ class FYTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Function sh = sHeight(context);
-    final Function sw = sWidth(context);
-
     return BottomAppBar(
       elevation: 25,
       child: Obx(() {

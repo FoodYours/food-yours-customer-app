@@ -26,7 +26,7 @@ class UserViewModel extends ViewModel {
         firstName = json?["firstName"] ?? "",
         lastName = json?["lastName"] ?? "",
         email = json?["clientEmail"] ?? "",
-        phone = json?["clientPhone"] ?? "",
+        phone = /* json?["clientPhone"] ?? */ "",
         imageUrl = json?["clientImage"] ?? "",
         address = json?["address"] ?? "",
         accountType = json?["accountType"] ?? "";

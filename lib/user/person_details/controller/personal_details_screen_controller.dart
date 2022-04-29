@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:food_yours_customer/api/app_response.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
 import 'package:food_yours_customer/common/widget/date_picker.dart';
-import 'package:food_yours_customer/common/widget/fy_drop_down.dart';
 import 'package:food_yours_customer/common/widget/notification_widgets.dart';
 import 'package:food_yours_customer/common/widget/option_item.dart';
 import 'package:food_yours_customer/resources/Images.dart';
@@ -12,7 +11,6 @@ import 'package:food_yours_customer/resources/strings.dart';
 import 'package:food_yours_customer/user/person_details/model/profile_update_model.dart';
 import 'package:food_yours_customer/user/service/user_service.dart';
 import 'package:food_yours_customer/util/navigation_util.dart';
-import 'package:get/route_manager.dart';
 import 'package:food_yours_customer/util/phone_util.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -75,37 +73,6 @@ class PersonalDetailsScreenController extends GetxController {
     emailTextCtrl.text = user.value.email;
     phoneTextCtrl.text = user.value.phone;
   }
-
-  // void setListenerOnTextCtrl() {
-  //   firstNameTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     lastNameHasChanged.value = true;
-  //   });
-  //   lastNameTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     firstNameHasChanged.value = true;
-  //   });
-  //   emailTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     emailHasChanged.value = true;
-  //   });
-  //   phoneTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     phoneHasChanged.value = true;
-  //   });
-  //   dobTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     dobHasChanged.value = true;
-  //   });
-  //   genderTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     genderHasChanged.value = true;
-  //   });
-  //   passwordTextCtrl.addListener(() {
-  //     isProfileEdited.value = true;
-  //     firstNameHasChanged.value = true;
-  //   });
-  // }
 
   validateInput() async {
     if (GetUtils.isBlank(firstNameTextCtrl.text)!) {

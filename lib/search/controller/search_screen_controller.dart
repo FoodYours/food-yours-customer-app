@@ -22,8 +22,8 @@ class SearchScreenController extends GetxController {
   ChefService chefService = Get.find();
 
   RxList<MealSearchViewModel> meals = <MealSearchViewModel>[].obs;
-  Rx<FoodCategoryViewModel> foodCategory = FoodCategoryViewModel().obs;
 
+  Rx<FoodCategoryViewModel> foodCategory = FoodCategoryViewModel().obs;
   Rx<MealViewModel> meal = MealViewModel().obs;
   Rx<ChefViewModel> chef = ChefViewModel().obs;
 
@@ -79,7 +79,6 @@ class SearchScreenController extends GetxController {
   }
 
   Map<String, dynamic> setRequestChefInformation(String chefId) {
-    print(chefId);
     return {
       "chefID": chefId,
       "idToken": token,

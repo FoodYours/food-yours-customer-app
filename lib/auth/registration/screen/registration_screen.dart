@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:food_yours_customer/auth/login/screen/login_screen.dart';
 import 'package:food_yours_customer/auth/registration/controller/registration_screen_controller.dart';
-import 'package:food_yours_customer/auth/widget/auth_card.dart';
+import 'package:food_yours_customer/common/widget/fy_raised_card.dart';
 import 'package:food_yours_customer/auth/widget/text_obscure_button.dart';
-import 'package:food_yours_customer/common/widget/app_button.dart';
 import 'package:food_yours_customer/common/widget/auth_pages_background_image.dart';
-import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
 import 'package:food_yours_customer/common/widget/button/fy_text_button.dart';
 import 'package:food_yours_customer/common/widget/button/underlined_text_button.dart';
 import 'package:food_yours_customer/common/widget/food_yours_logo.dart';
 import 'package:food_yours_customer/common/widget/fy_country_code_picker.dart';
 import 'package:food_yours_customer/common/widget/loader.dart';
-import 'package:food_yours_customer/common/widget/local_theme.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_400_text.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_700_text.dart';
 import 'package:food_yours_customer/common/widget/text_field/primary_text_field.dart';
@@ -22,7 +16,6 @@ import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_utils/get_utils.dart';
 import 'package:get/instance_manager.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -83,10 +76,8 @@ class RegistrationScreen extends StatelessWidget {
   Widget _buildRegistrationForm(Function sw, BuildContext context) {
     Function sh = sHeight(context);
 
-    return AuthCard(
-      height: sh(Dimens.k568),
-      child: ListView(
-        padding: EdgeInsets.zero,
+    return FYRaisedCard(
+      child: Column(
         children: [
           SizedBox(
             height: sh(Dimens.k26),
@@ -130,7 +121,7 @@ class RegistrationScreen extends StatelessWidget {
           Obx(() => Row(
                 children: [
                   SizedBox(
-                    width: 85,
+                    width: Dimens.k85,
                     child: FYCountryCodePicker(
                       onChanged: widgetCtrl.onCountrySelected,
                       selectedCountryCode: widgetCtrl.selectedCountryCode.value,

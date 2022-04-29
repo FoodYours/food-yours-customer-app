@@ -51,6 +51,8 @@ class FYColors {
   static const Color lighterBlack = Color(0xFF8F90A6);
   static const Color lighterBlack2 = Color(0xFF6C6E90);
   static const Color lighterBlack3 = Color(0xFF6B7588);
+  static const Color lighterBlack4 = Color(0xFFCACBE0);
+  static const Color lighterBlack5 = Color(0xFFAEB4C0);
   static const Color subtleBlack = Color(0xFFC7C9D9);
   static const Color subtleBlack2 = Color(0xFFB6B6B6);
   static const Color subtleBlack3 = Color(0xFF9D9B9B);
@@ -68,6 +70,4 @@ class FYColors {
   //Background Color
   static const Color mainBackground = Color(0xFFFAFAFC);
   static const Color subtleBackground = Color(0xFFFFF6F7);
-
-  static var brandPrimary;
 }

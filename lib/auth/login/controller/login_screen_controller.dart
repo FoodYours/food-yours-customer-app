@@ -12,8 +12,6 @@ import 'package:food_yours_customer/resources/enums.dart';
 import 'package:food_yours_customer/resources/strings.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:get/state_manager.dart';
 

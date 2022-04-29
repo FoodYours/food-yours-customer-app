@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/repository/preference_repository/preference_repository.dart';
 import 'package:food_yours_customer/common/service/fcm_service.dart';
 import 'package:food_yours_customer/resources/strings.dart';
-import 'package:get/route_manager.dart';
 import 'package:get/get.dart';
 
 class ProfileTabController extends GetxController {

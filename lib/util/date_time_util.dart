@@ -6,10 +6,10 @@ class DateTimeUtil {
   static TimeOfDay dateTimeToTimeOfDay(DateTime? dateTime) =>
       TimeOfDay.fromDateTime(dateTime ?? DateTime.now());
 
-  static DateTime stringTodateTime(String dateTimeString) =>
+  static DateTime stringToDateTime(String dateTimeString) =>
       DateFormat('d/M/yyyy').parse(dateTimeString);
 
-  static String dateTimeToDayOfWeekString(DateTime? dateTime) =>
+  static String dateTimeToDayOfWeek(DateTime? dateTime) =>
       DateFormat('EEEE').format(dateTime ?? DateTime.now());
 
   static DateTime timeOfDayToDateTime(TimeOfDay timeOfDay) {

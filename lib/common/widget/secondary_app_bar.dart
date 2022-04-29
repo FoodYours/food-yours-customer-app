@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_yours_customer/common/widget/app_button.dart';
 import 'package:food_yours_customer/common/widget/button/fy_flat_button.dart';
 import 'package:food_yours_customer/common/widget/text/mulish_600_text.dart';
 import 'package:food_yours_customer/resources/Images.dart';
@@ -8,7 +7,6 @@ import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:food_yours_customer/util/navigation_util.dart';
 import 'package:food_yours_customer/util/responsive_screen_util.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
 
 class SecondaryAppBar extends StatelessWidget {
   final bool? showBackBtn;

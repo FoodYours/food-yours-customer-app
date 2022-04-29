@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
 import 'package:food_yours_customer/common/widget/app_bar/primary_app_bar.dart';
-import 'package:food_yours_customer/controller/dashbard/dashboard_screen_controller.dart';
+import 'package:food_yours_customer/dashboard/controller/dashboard_screen_controller.dart';
 import 'package:food_yours_customer/home/controller/home_tab_controller.dart';
 import 'package:food_yours_customer/home/screen/home_screen_back_panel.dart';
 import 'package:food_yours_customer/home/screen/home_screen_front_panel.dart';
@@ -24,13 +24,16 @@ class HomeTab extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
-              preferredSize: Size(20, sh(50.41)),
-              child: Obx(() => homeTabCtrl.isShowHomeScreenAppbar.value
+            preferredSize: Size(20, sh(50.41)),
+            child: Obx(
+              () => homeTabCtrl.showHomeScreenAppbar.value
                   ? HomeAppBar(user.value)
                   : PrimaryAppBar(
                       title: "Search",
                       backAction: homeTabCtrl.closeSearchBackDrop,
-                    ))),
+                    ),
+            ),
+          ),
           body: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
             return Container(

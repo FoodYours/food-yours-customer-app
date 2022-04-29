@@ -1,5 +1,6 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:equatable/equatable.dart';
-import 'package:food_yours_customer/resources/strings.dart';
 import 'package:hive/hive.dart';
 
 part 'cart_model.g.dart';
@@ -13,7 +14,7 @@ class CartModel extends Equatable {
   late Map quantity;
 
   @HiveField(2)
-  late List<Map> suppliments;
+  late List<Map> supplements;
 
   @HiveField(3)
   late List<Map> extras;
@@ -54,11 +55,15 @@ class CartModel extends Equatable {
   @HiveField(15)
   late String chefImageUrl;
 
+  @HiveField(16)
+  late int key;
+
   CartModel({
     this.id = "",
+    this.key = 0,
     this.mealName = "",
     this.quantity = const {},
-    this.suppliments = const [{}],
+    this.supplements = const [{}],
     this.extras = const [{}],
     this.note = "",
     this.total = 0.0,
@@ -75,18 +80,25 @@ class CartModel extends Equatable {
 
   @override
   String toString() {
-    return 'CartModel{id: $id, mealName: $mealName, quantity: $quantity, suppliments: $suppliments, extras: $extras, note: $note, total: $total, count: $count, minimumMealPrice: $minimumMealPrice, chefName: $chefName, address: $address, chefDeliveryDays: $chefDeliveryDays, specifiedDeliveryAndTime: $specifiedDeliveryAndTime, chefId: $chefId, chefImageUrl: $chefImageUrl}';
+    return 'CartModel{id: $id, key: $key, mealName: $mealName, quantity: $quantity, suppliments: $supplements, extras: $extras, note: $note, total: $total, count: $count, minimumMealPrice: $minimumMealPrice, chefName: $chefName, address: $address, chefDeliveryDays: $chefDeliveryDays, specifiedDeliveryAndTime: $specifiedDeliveryAndTime, chefId: $chefId, chefImageUrl: $chefImageUrl}';
   }
 
   @override
   List<Object?> get props => [
+        // id,
         mealName,
         quantity,
-        suppliments,
+        supplements,
         extras,
         note,
         total,
         chefName,
-        minimumMealPrice
+        minimumMealPrice,
+        address,
+        // chefDeliveryDays,
+        specifiedDeliveryAndTime,
+        status,
+        chefId,
+        chefImageUrl,
       ];
 }

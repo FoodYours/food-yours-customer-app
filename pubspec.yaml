@@ -49,6 +49,9 @@ dependencies:
   flutter_paystack: ^1.0.5+1
   substring_highlight: ^1.0.33
   flutter_typeahead: ^3.2.1
+  pinput: ^1.2.2
+  url_launcher: ^6.0.20
+  freezed: ^2.0.2
 
 dev_dependencies:
   # dart_code_metrics: ^4.1.0
@@ -103,6 +106,8 @@ flutter:
           weight: 800
         - asset: assets/fonts/inter/Inter-Bold.ttf
           weight: 700
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
         - asset: assets/fonts/inter/Inter-Medium.ttf
           weight: 500
         - asset: assets/fonts/inter/Inter-Regular.ttf

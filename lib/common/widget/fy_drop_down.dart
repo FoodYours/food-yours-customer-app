@@ -20,6 +20,8 @@ class FYDropDownButton<T> extends StatelessWidget {
 
   final Color borderColor;
 
+  final bool hideIcon;
+
   FYDropDownButton({
     required this.options,
     required this.onChanged,
@@ -29,6 +31,7 @@ class FYDropDownButton<T> extends StatelessWidget {
     this.selectedOption,
     this.isExpanded = false,
     this.borderColor = Colors.transparent,
+    this.hideIcon = false,
   });
 
   @override
@@ -54,9 +57,8 @@ class FYDropDownButton<T> extends StatelessWidget {
             child: ButtonTheme(
               alignedDropdown: true,
               focusColor: FYColors.lighterRed,
-              // disabledColor: gray3,
-              // splashColor: yellow,
               child: DropdownButton<FYOptionItem<T>>(
+                icon: hideIcon ? Icon(Icons.arrow_drop_down) : SizedBox(),
                 isExpanded: isExpanded,
                 dropdownColor: Colors.white,
                 focusNode: focusNode,

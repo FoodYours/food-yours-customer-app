@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_yours_customer/common/widget/notification_widgets.dart';
 import 'package:food_yours_customer/common/widget/twin_buttons.dart';
 import 'package:food_yours_customer/fund_wallet/screen/fund_wallet.dart';
-import 'package:food_yours_customer/home/controller/home_tab_controller.dart';
 import 'package:food_yours_customer/resources/colors.dart';
 import 'package:food_yours_customer/resources/dimens.dart';
 import 'package:get/route_manager.dart';
@@ -13,7 +11,6 @@ class WalletBalance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Function sh = sHeight(context);
-    final Function sw = sWidth(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(Dimens.k12),

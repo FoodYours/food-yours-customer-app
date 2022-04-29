@@ -1,23 +1,29 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:food_yours_customer/api/app_response.dart';
+import 'package:food_yours_customer/auth/login/controller/login_screen_controller.dart';
 import 'package:food_yours_customer/cart/model/cart_model.dart';
+import 'package:food_yours_customer/cart/model/online_cart_model.dart';
 import 'package:food_yours_customer/cart/screen/cart_order_summary_screen.dart';
 import 'package:food_yours_customer/chef_screen/service/chef_service.dart';
 import 'package:food_yours_customer/common/view_model/global_objects.dart';
+import 'package:food_yours_customer/common/widget/notification_widgets.dart';
 import 'package:food_yours_customer/common/widget/option_item.dart';
 import 'package:food_yours_customer/home/view_model/chef_review_view_modal.dart';
 import 'package:food_yours_customer/home/view_model/chef_view_model.dart';
 import 'package:food_yours_customer/home/view_model/food_category_view_model.dart';
 import 'package:food_yours_customer/home/view_model/meal_search_view_model.dart';
+import 'package:food_yours_customer/home/view_model/meal_view_model.dart';
 import 'package:food_yours_customer/product_screen/screen/product_screen.dart';
 import 'package:food_yours_customer/product_screen/service/product_service.dart';
 import 'package:food_yours_customer/resources/enums.dart';
 import 'package:food_yours_customer/resources/integers.dart';
 import 'package:food_yours_customer/resources/strings.dart';
+import 'package:food_yours_customer/search/screen/search_screen.dart';
 import 'package:food_yours_customer/util/date_time_util.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:hive/hive.dart';
 
@@ -26,13 +32,15 @@ class ChefScreenController extends GetxController
   ProductService productService = Get.find();
   ChefService chefService = Get.find();
 
-  RxBool isLoading = false.obs;
+  RxBool showSmallLoader = false.obs;
+  RxBool showLargeLoader = false.obs;
   RxString loadingMessage = "".obs;
 
   RxInt cartItemsCount = 0.obs;
 
   late TabController tabController =
       TabController(length: Integers.chefScreenTabLength, vsync: this);
+
   ScrollController scrollController = ScrollController();
 
   late List<FoodCategoryViewModel> categories =
@@ -42,22 +50,61 @@ class ChefScreenController extends GetxController
 
   late RxList<ChefReviewViewModel> chefReviews = <ChefReviewViewModel>[].obs;
 
-  RxInt selectedSegment = 1.obs;
+  late AnimationController animationCtrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+      lowerBound: 0.47,
+      upperBound: 1.0);
+
+  late Animation<double> animation =
+      CurvedAnimation(parent: animationCtrl, curve: Curves.easeInOutCirc);
+
+  RxInt selectedTab = 1.obs;
   RxInt selectedFoodCategoryIndex = 0.obs;
   RxBool isFollowed = false.obs;
 
   Rx<ChefViewModel> chef = ChefViewModel().obs;
   RxList<MealSearchViewModel> chefMeals = <MealSearchViewModel>[].obs;
-  MealSearchViewModel meal = MealSearchViewModel();
+  MealViewModel meal = MealViewModel();
 
   RxList tags = [].obs;
 
   onSegmentSelected(value) {
-    selectedSegment.value = value;
+    selectedTab.value = value;
   }
 
   onCategorySelected(int index, FoodCategoryViewModel foodCategory) {
     selectedFoodCategoryIndex.value = index;
+    loadAllMealsUnderSelectedCategory();
+  }
+
+  loadAllMealsUnderSelectedCategory() async {
+    showLargeLoader.value = true;
+
+    loadingMessage.value = "loading Meals";
+
+    Map<String, dynamic> requestInformation = setAllMealRequestInformation();
+
+    AppResponse response = await productService
+        .loadAllMealUnderSelectedCategory(requestInformation);
+
+    showLargeLoader.value = false;
+
+    showFYSnackBar(
+        message: response.message, responseGrades: response.responseGrades);
+
+    if (response.responseGrades == ResponseGrades.ERROR) return;
+
+    gotoSearchScreen(response.data!,
+        foodCategories.value[selectedFoodCategoryIndex.value].name);
+  }
+
+  Map<String, dynamic> setAllMealRequestInformation() {
+    return {
+      "categoryID":
+          foodCategories.value[selectedFoodCategoryIndex.value].categoryId,
+      "sKey": Strings.apiKey,
+    };
   }
 
   toggleFollowingStatus() => isFollowed.value = !isFollowed.value;
@@ -71,7 +118,12 @@ class ChefScreenController extends GetxController
 
   void setGetArgument() {
     chef.value = Get.arguments["chef"];
-    tags.value = chef.value.chefsTags.split(",");
+    tags.value = chef.value.chefsTags
+        .split(",")
+        .take(5)
+        .takeWhile((String? value) => value != null)
+        .toList();
+
     loadMealsByChef();
   }
 
@@ -81,34 +133,8 @@ class ChefScreenController extends GetxController
         0;
   }
 
-  increaseItemQuantity(int indexOfCartItem) {
-    CartModel cartItem = Hive.box(Strings.CART_BOX).getAt(indexOfCartItem);
-    cartItem..count += 1;
-    Hive.box(Strings.CART_BOX).delete(indexOfCartItem);
-    Hive.box(Strings.CART_BOX).put(indexOfCartItem, cartItem);
-    int cartItemsCount =
-        Hive.box(Strings.RANDOM_INFORMATION_BOX).get(Strings.CART_ITEMS_COUNT);
-    Hive.box(Strings.RANDOM_INFORMATION_BOX)
-        .put(Strings.CART_ITEMS_COUNT, cartItemsCount += 1);
-  }
-
-  decreaseItemQuantity(int indexOfCartItem) {
-    CartModel cartItem = Hive.box(Strings.CART_BOX).getAt(indexOfCartItem);
-
-    if (cartItem.count < 1) {
-      Hive.box(Strings.CART_BOX).delete(indexOfCartItem);
-      Hive.box(Strings.CART_BOX).compact();
-      return;
-    }
-    Hive.box(Strings.CART_BOX).put(indexOfCartItem, cartItem..count -= 1);
-    int cartItemsCount =
-        Hive.box(Strings.RANDOM_INFORMATION_BOX).get(Strings.CART_ITEMS_COUNT);
-    Hive.box(Strings.RANDOM_INFORMATION_BOX)
-        .put(Strings.CART_ITEMS_COUNT, cartItemsCount -= 1);
-  }
-
   loadMealsByChef() async {
-    isLoading.value = true;
+    showSmallLoader.value = true;
 
     Map<String, dynamic> requestInformation =
         setMealsByChefRequestInformation();
@@ -116,7 +142,7 @@ class ChefScreenController extends GetxController
     AppResponse<List<MealSearchViewModel>> response =
         await chefService.loadMealsByChef(requestInformation);
 
-    isLoading.value = false;
+    showSmallLoader.value = false;
 
     if (response.responseGrades == ResponseGrades.ERROR) return;
 
@@ -131,7 +157,7 @@ class ChefScreenController extends GetxController
   }
 
   loadChefReviews() async {
-    isLoading.value = true;
+    showSmallLoader.value = true;
 
     Map<String, dynamic> requestInformation =
         setChefReviewsRequestInformation();
@@ -139,7 +165,7 @@ class ChefScreenController extends GetxController
     AppResponse<List<ChefReviewViewModel>> response =
         await chefService.loadChefReviews(requestInformation);
 
-    isLoading.value = false;
+    showSmallLoader.value = false;
 
     if (response.responseGrades == ResponseGrades.ERROR) return;
 
@@ -153,35 +179,71 @@ class ChefScreenController extends GetxController
     };
   }
 
-  addItemToCart(MealSearchViewModel mealSearchViewModel) {
+  addItemToCart(MealSearchViewModel mealSearchViewModel) async {
     CartModel? cartItem =
         Hive.box(Strings.CART_BOX).get(mealSearchViewModel.id);
+
     if (cartItem != null) {
       cartItem.count += 1;
-      Hive.box(Strings.CART_BOX).put(cartItem.id, cartItem);
+      await addToOnlineCart(cartItem);
     } else {
       CartModel cartModel = generateCartModel(mealSearchViewModel);
-      Hive.box(Strings.CART_BOX).put(cartModel.id, cartModel);
+      await addToOnlineCart(cartModel);
     }
-    int cartItemsCount = Hive.box(Strings.RANDOM_INFORMATION_BOX)
-            .get(Strings.CART_ITEMS_COUNT) ??
-        0;
-    Hive.box(Strings.RANDOM_INFORMATION_BOX)
-        .put(Strings.CART_ITEMS_COUNT, cartItemsCount += 1);
+
+    updateCartItemCount(1);
   }
 
-  removeItemfromCart(MealSearchViewModel mealSearchViewModel) {
+  void addToLocalCart(CartModel cartItem) {
+    Hive.box(Strings.CART_BOX).put(cartItem.id, cartItem);
+  }
+
+  Future<void> addToOnlineCart(CartModel cartItem) async {
+    showLargeLoader.value = true;
+
+    loadingMessage.value = "Adding item to cart";
+
+    OnlineCartModel onlineCartModel = await setOnlineCartInformation(cartItem);
+
+    AppResponse response =
+        await productService.addToOnlineCart(onlineCartModel.toJSON());
+
+    showLargeLoader.value = false;
+
+    showFYSnackBar(
+        message: response.message, responseGrades: response.responseGrades);
+
+    if (response.responseGrades == ResponseGrades.ERROR) return;
+
+    addToLocalCart(cartItem);
+  }
+
+  OnlineCartModel setOnlineCartInformation(CartModel cartItem) {
+    return OnlineCartModel(
+      idToken: token,
+      foodId: cartItem.id,
+      quantity: cartItem.count.toString(),
+      mealAmount: cartItem.minimumMealPrice.toString(),
+      extras: Map.fromIterable(cartItem.extras,
+          key: (v) => v["name"], value: (v) => v["price"]),
+      supplements: Map.fromIterable(cartItem.supplements,
+          key: (v) => v["name"], value: (v) => v["price"]),
+      notes: cartItem.note,
+      deliveryDay: cartItem.specifiedDeliveryAndTime,
+      total: cartItem.total.toString(),
+    );
+  }
+
+  removeItemFromCart(MealSearchViewModel mealSearchViewModel) async {
     CartModel? cartItem =
         Hive.box(Strings.CART_BOX).get(mealSearchViewModel.id);
-    if (cartItem != null) {
-      cartItem.count -= 1;
-      Hive.box(Strings.CART_BOX).put(cartItem.id, cartItem);
-    }
 
-    int cartItemsCount =
-        Hive.box(Strings.RANDOM_INFORMATION_BOX).get(Strings.CART_ITEMS_COUNT);
-    Hive.box(Strings.RANDOM_INFORMATION_BOX)
-        .put(Strings.CART_ITEMS_COUNT, cartItemsCount -= 1);
+    if (cartItem != null && cartItem.count > 0) {
+      cartItem.count -= 1;
+      await addToOnlineCart(cartItem);
+
+      updateCartItemCount(-1);
+    }
   }
 
   CartModel generateCartModel(MealSearchViewModel mealModel) {
@@ -190,7 +252,7 @@ class ChefScreenController extends GetxController
       mealName: mealModel.name,
       note: "",
       quantity: {"name": mealModel.name, "price": mealModel.lowestPrice},
-      suppliments: [],
+      supplements: [],
       extras: [],
       total: calculateTotalCostOfOrder(
           [],
@@ -219,17 +281,17 @@ class ChefScreenController extends GetxController
   }
 
   loadMeal(MealSearchViewModel selectedMeal) async {
-    isLoading.value = true;
+    showLargeLoader.value = true;
 
     loadingMessage.value = "Fetching meal";
 
     Map<String, dynamic> requestInformation =
         setRequestMealInformation(selectedMeal.id);
 
-    AppResponse<MealSearchViewModel> response =
+    AppResponse<MealViewModel> response =
         await productService.loadMeal(requestInformation);
 
-    isLoading.value = false;
+    showLargeLoader.value = false;
 
     if (response.responseGrades == ResponseGrades.ERROR) return;
 
@@ -252,5 +314,21 @@ class ChefScreenController extends GetxController
   void gotoOrderSummary() {
     Get.off(() => CartOrderSummaryScreen(),
         arguments: {"chef": Get.arguments["chef"]});
+  }
+
+  gotoSearchScreen(meals, String categoryName) => Get.to(
+        () => SearchScreen(),
+        arguments: {
+          "meals": meals,
+          "searchQuery": categoryName,
+        },
+      );
+
+  void updateCartItemCount(int value) {
+    int cartItemsCount = Hive.box(Strings.RANDOM_INFORMATION_BOX)
+            .get(Strings.CART_ITEMS_COUNT) ??
+        0;
+    Hive.box(Strings.RANDOM_INFORMATION_BOX)
+        .put(Strings.CART_ITEMS_COUNT, cartItemsCount + value);
   }
 }
